@@ -72,9 +72,11 @@ namespace IFix
                                 flag = (int)fp.GetValue(ca, null);
                             }
                             List<KeyValuePair<object, int>> infos;
-                            if (tagsMap.TryGetValue(ca.GetType().ToString(), out infos))
+                            var key = ca.GetType().ToString();
+                            if (tagsMap.TryGetValue(key, out infos))
                             {
-                                foreach (var applyTo in prop.GetValue(null, null) as IEnumerable)
+                                var getConfig = prop.GetValue(null, null) as IEnumerable;
+                                foreach (var applyTo in getConfig)
                                 {
                                     infos.Add(new KeyValuePair<object, int>(applyTo, flag));
                                 }

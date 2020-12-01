@@ -10,7 +10,7 @@ namespace DA.DownloadTool
     {
         private static DownloadMono downloadMono;
 
-        public static string GithubPathRoot = "https://github.com/cofdream/Resources/";
+        public static string GithubPathRoot = "https://github.com/cofdream/Resources/raw/main/";
 
         public static Coroutine Run(IEnumerator routine)
         {
@@ -32,6 +32,11 @@ namespace DA.DownloadTool
             webRequest.downloadHandler = downloadHandler;
 
             yield return webRequest.SendWebRequest();
+
+            if (webRequest.isNetworkError || webRequest.isHttpError)
+            {
+                Test.Log("Error: " + url + "\n" + webRequest.error + "\n");
+            }
 
             callback?.Invoke(webRequest.downloadHandler);
 
